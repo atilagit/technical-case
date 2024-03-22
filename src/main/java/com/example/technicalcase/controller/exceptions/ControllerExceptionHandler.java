@@ -1,5 +1,6 @@
 package com.example.technicalcase.controller.exceptions;
 
+import com.example.technicalcase.services.exceptions.ResourceNotFoundException;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -42,6 +43,18 @@ public class ControllerExceptionHandler {
 		err.setPath(request.getRequestURI());
 
 		err.addError(e.getMessage());
+		return ResponseEntity.status(status).body(err);
+	}
+
+	@ExceptionHandler(ResourceNotFoundException.class)
+	public ResponseEntity<StandardError> validation(ResourceNotFoundException e, HttpServletRequest request){
+		HttpStatus status = HttpStatus.NOT_FOUND;
+		StandardError err = new StandardError();
+		err.setTimestamp(Instant.now());
+		err.setStatus(status.value());
+		err.setError(HttpMessageNotReadableException.class.getName());
+		err.setMessage(e.getMessage());
+		err.setPath(request.getRequestURI());
 		return ResponseEntity.status(status).body(err);
 	}
 }
