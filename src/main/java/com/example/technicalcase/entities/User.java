@@ -8,6 +8,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.Objects;
@@ -20,6 +21,7 @@ import java.util.UUID;
 @Entity
 @Table(name = "TB_USER")
 public class User implements Serializable {
+    @Serial
     private static final long serialVersionUID = 1L;
 
     @Id
@@ -33,6 +35,11 @@ public class User implements Serializable {
 
     @Enumerated(EnumType.STRING)
     private Role role;
+
+    public User(LocalDate creationDate) {
+        super();
+        this.creationDate = creationDate;
+    }
 
     @Override
     public boolean equals(Object o) {

@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import java.time.LocalDate;
+
 @RestController
 @RequestMapping("/users")
 public class UserController {
@@ -36,7 +38,7 @@ public class UserController {
     }
 
     private User mapToUser(UserRequest request) {
-        var user = new User();
+        var user = new User(LocalDate.now());
         BeanUtils.copyProperties(request, user);
         return user;
     }
