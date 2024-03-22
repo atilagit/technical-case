@@ -4,6 +4,7 @@ import com.example.technicalcase.controller.data.requests.UserRequest;
 import com.example.technicalcase.controller.data.responses.UserResponse;
 import com.example.technicalcase.entities.User;
 import com.example.technicalcase.services.SaveUserUseCase;
+import jakarta.validation.Valid;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -21,7 +22,7 @@ public class UserController {
     SaveUserUseCase saveUserUseCase;
 
     @PostMapping
-    ResponseEntity<UserResponse> saveUser(@RequestBody UserRequest userRequest) {
+    ResponseEntity<UserResponse> saveUser(@RequestBody @Valid UserRequest userRequest) {
         var user = mapToUser(userRequest);
         user = saveUserUseCase.execute(user);
         UserResponse userResponse = mapToUserResponse(user);
