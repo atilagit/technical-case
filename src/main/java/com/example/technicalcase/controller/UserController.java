@@ -31,13 +31,12 @@ public class UserController {
     }
 
     private UserResponse mapToUserResponse(User user) {
-        return new UserResponse(user.getId(), user.getName(), user.getUsername(), user.getEmail(), user.getRole().toString(), user.getCreationDate());
+        return new UserResponse(user.getId(), user.getName(), user.getUsername(), user.getEmail(), user.getRole(), user.getCreationDate());
     }
 
-    private User mapToUser(UserRequest userRequest) {
+    private User mapToUser(UserRequest request) {
         var user = new User();
-        BeanUtils.copyProperties(userRequest, user);
-        user.setRole(User.Role.valueOf(userRequest.role()));
+        BeanUtils.copyProperties(request, user);
         return user;
     }
 }
