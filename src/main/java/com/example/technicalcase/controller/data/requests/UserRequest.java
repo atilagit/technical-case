@@ -1,8 +1,10 @@
 package com.example.technicalcase.controller.data.requests;
 
 import com.example.technicalcase.enumerators.Role;
+import com.example.technicalcase.services.validation.UserInsertValid;
 import jakarta.validation.constraints.*;
 
+@UserInsertValid
 public record UserRequest(
         @NotBlank(message = "Campo obrigatório")
         String name,
