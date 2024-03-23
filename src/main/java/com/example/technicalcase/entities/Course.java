@@ -10,6 +10,7 @@ import lombok.Setter;
 import java.io.Serial;
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.Objects;
 import java.util.UUID;
 
 @NoArgsConstructor
@@ -40,4 +41,20 @@ public class Course implements Serializable {
     private Status status;
     private LocalDate creationDate;
     private LocalDate inactivationDate;
+
+    public Course(String code) {
+        this.code = code;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Course course)) return false;
+        return Objects.equals(getId(), course.getId()) && Objects.equals(getCode(), course.getCode());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getId(), getCode());
+    }
 }

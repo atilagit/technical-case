@@ -1,7 +1,9 @@
 package com.example.technicalcase.controller.exceptions;
 
 import com.example.technicalcase.services.exceptions.AlreadyInactiveStatusException;
+import com.example.technicalcase.services.exceptions.NotActiveCourseException;
 import com.example.technicalcase.services.exceptions.ResourceNotFoundException;
+import com.example.technicalcase.services.exceptions.UniquenessViolationEnrollmentException;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -60,11 +62,21 @@ public class ControllerExceptionHandler {
 	}
 
 	@ExceptionHandler(AlreadyInactiveStatusException.class)
-	public ResponseEntity<StandardError> validation(AlreadyInactiveStatusException e, HttpServletRequest request){
-		return getStandardErrorResponseEntity(e, request, HttpStatus.CONFLICT);
+	public ResponseEntity<StandardError> validation(AlreadyInactiveStatusException exception, HttpServletRequest request){
+		return getStandardErrorResponseEntity(exception, request, HttpStatus.CONFLICT);
 	}
 
-	private static ResponseEntity<StandardError> getStandardErrorResponseEntity(AlreadyInactiveStatusException exception, HttpServletRequest request, HttpStatus status) {
+	@ExceptionHandler(NotActiveCourseException.class)
+	public ResponseEntity<StandardError> validation(NotActiveCourseException exception, HttpServletRequest request){
+		return getStandardErrorResponseEntity(exception, request, HttpStatus.CONFLICT);
+	}
+
+	@ExceptionHandler(UniquenessViolationEnrollmentException.class)
+	public ResponseEntity<StandardError> validation(UniquenessViolationEnrollmentException exception, HttpServletRequest request){
+		return getStandardErrorResponseEntity(exception, request, HttpStatus.CONFLICT);
+	}
+
+	private static ResponseEntity<StandardError> getStandardErrorResponseEntity(RuntimeException exception, HttpServletRequest request, HttpStatus status) {
 		StandardError err = new StandardError();
 		err.setTimestamp(Instant.now());
 		err.setStatus(status.value());
