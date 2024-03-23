@@ -1,6 +1,7 @@
 package com.example.technicalcase.controller.mappers;
 
 import com.example.technicalcase.controller.data.requests.InsertCourseRequest;
+import com.example.technicalcase.controller.data.responses.FindAllCourseResponse;
 import com.example.technicalcase.controller.data.responses.InsertCourseResponse;
 import com.example.technicalcase.entities.Course;
 import com.example.technicalcase.entities.User;
@@ -21,6 +22,11 @@ public class CourseMapper {
 
     public static InsertCourseResponse mapToInsertCourseResponse(Course course) {
         return new InsertCourseResponse(course.getId(), course.getInstructor().getUsername(), course.getCode(),
+                course.getDescription(), course.getName(), course.getStatus(), course.getCreationDate(),
+                course.getInactivationDate());
+    }
+    public static FindAllCourseResponse mapToFindAllCourseResponse(Course course) {
+        return new FindAllCourseResponse(course.getInstructor().getUsername(), course.getCode(),
                 course.getDescription(), course.getName(), course.getStatus(), course.getCreationDate(),
                 course.getInactivationDate());
     }

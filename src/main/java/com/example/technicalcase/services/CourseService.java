@@ -2,11 +2,14 @@ package com.example.technicalcase.services;
 
 import com.example.technicalcase.entities.Course;
 import com.example.technicalcase.entities.User;
+import com.example.technicalcase.enumerators.Status;
 import com.example.technicalcase.repositories.CourseRepository;
 import com.example.technicalcase.repositories.UserRepository;
 import com.example.technicalcase.services.exceptions.AlreadyInactiveStatusException;
 import com.example.technicalcase.services.exceptions.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -46,5 +49,13 @@ public class CourseService {
         course.setStatus(INACTIVE);
         course.setInactivationDate(LocalDate.now());
         return repository.save(course);
+    }
+
+    @Transactional(readOnly = true)
+    public Page<Course> findAll(Status status, Pageable pageable) {
+        if(isNull(status)) {
+            return repository.findAll(pageable);
+        }
+        return repository.findAllByStatus(status, pageable);
     }
 }
