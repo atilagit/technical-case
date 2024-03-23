@@ -27,6 +27,7 @@ public class Course implements Serializable {
     private UUID id;
 
     @ManyToOne
+    @JoinColumn(nullable = false)
     private User instructor;
 
     @Column(unique = true)

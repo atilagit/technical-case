@@ -1,9 +1,11 @@
 package com.example.technicalcase.controller.data.requests;
 
+import com.example.technicalcase.services.validation.InsertCourseValidation;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 
+@InsertCourseValidation
 public record InsertCourseRequest(
 
         @NotBlank
