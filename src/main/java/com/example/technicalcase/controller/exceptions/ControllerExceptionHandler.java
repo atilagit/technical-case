@@ -1,5 +1,6 @@
 package com.example.technicalcase.controller.exceptions;
 
+import com.example.technicalcase.services.exceptions.AlreadyInactiveStatusException;
 import com.example.technicalcase.services.exceptions.ResourceNotFoundException;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
@@ -54,6 +55,21 @@ public class ControllerExceptionHandler {
 		err.setStatus(status.value());
 		err.setError(HttpMessageNotReadableException.class.getName());
 		err.setMessage(e.getMessage());
+		err.setPath(request.getRequestURI());
+		return ResponseEntity.status(status).body(err);
+	}
+
+	@ExceptionHandler(AlreadyInactiveStatusException.class)
+	public ResponseEntity<StandardError> validation(AlreadyInactiveStatusException e, HttpServletRequest request){
+		return getStandardErrorResponseEntity(e, request, HttpStatus.CONFLICT);
+	}
+
+	private static ResponseEntity<StandardError> getStandardErrorResponseEntity(AlreadyInactiveStatusException exception, HttpServletRequest request, HttpStatus status) {
+		StandardError err = new StandardError();
+		err.setTimestamp(Instant.now());
+		err.setStatus(status.value());
+		err.setError(exception.getClass().getSimpleName());
+		err.setMessage(exception.getMessage());
 		err.setPath(request.getRequestURI());
 		return ResponseEntity.status(status).body(err);
 	}

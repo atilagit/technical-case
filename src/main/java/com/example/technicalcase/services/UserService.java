@@ -26,6 +26,6 @@ public class UserService {
         if (Objects.nonNull(user)){
             return user;
         }
-        throw new ResourceNotFoundException("Entity not found");
+        throw new ResourceNotFoundException();
     }
 }

@@ -1,4 +1,4 @@
-package com.example.technicalcase.controller;
+package com.example.technicalcase.controller.mappers;
 
 import com.example.technicalcase.controller.data.requests.InsertCourseRequest;
 import com.example.technicalcase.controller.data.responses.InsertCourseResponse;
