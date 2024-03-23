@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.util.Objects;
 
 @Service
@@ -16,13 +17,14 @@ public class UserService {
     UserRepository repository;
 
     @Transactional
-    public User execute(User user) {
+    public User save(User user) {
+        user.setCreationDate(LocalDate.now());
         return repository.save(user);
     }
 
     @Transactional(readOnly = true)
-    public User execute(String username) {
-        User user = repository.findByUsername(username);
+    public User findByUsername(String username) {
+        var user = repository.findByUsername(username);
         if (Objects.nonNull(user)){
             return user;
         }

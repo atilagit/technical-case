@@ -27,19 +27,19 @@ public class User implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
-    private String name;
+
+    @Column(unique = true)
     private String username;
+
+    @Column(unique = true)
     private String email;
+
+    private String name;
     private String password;
     private LocalDate creationDate;
 
     @Enumerated(EnumType.STRING)
     private Role role;
-
-    public User(LocalDate creationDate) {
-        super();
-        this.creationDate = creationDate;
-    }
 
     @Override
     public boolean equals(Object o) {

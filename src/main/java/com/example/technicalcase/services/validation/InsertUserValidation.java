@@ -8,11 +8,11 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-@Constraint(validatedBy = UserInsertValidator.class)
+@Constraint(validatedBy = InsertUserValidator.class)
 @Target({ ElementType.TYPE })
 @Retention(RetentionPolicy.RUNTIME)
 
-public @interface UserInsertValid {
+public @interface InsertUserValidation {
     String message() default "Validation error";
 
     Class<?>[] groups() default {};

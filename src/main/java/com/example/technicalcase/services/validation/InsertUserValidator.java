@@ -6,33 +6,30 @@ import com.example.technicalcase.entities.User;
 import com.example.technicalcase.repositories.UserRepository;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class UserInsertValidator implements ConstraintValidator<UserInsertValid, UserRequest> {
-
-    @Autowired
-    private UserRepository repository;
+public record InsertUserValidator(UserRepository repository) implements ConstraintValidator<InsertUserValidation, UserRequest> {
 
     @Override
-    public void initialize(UserInsertValid constraintAnnotation) {
-
+    public void initialize(InsertUserValidation constraintAnnotation) {
     }
 
     @Override
     public boolean isValid(UserRequest request, ConstraintValidatorContext constraintValidatorContext) {
         List<FieldMessage> fieldMessages = new ArrayList<>();
 
-        User user = repository.findByEmail(request.email());
+        var email = request.email();
+        User user = repository.findByEmail(email);
         if(user != null) {
-            fieldMessages.add(new FieldMessage("email", "Email " + request.email() + " já existe"));
+            fieldMessages.add(new FieldMessage("email", "Email " + email + " already exists"));
         }
 
-        user = repository.findByUsername(request.username());
+        var username = request.username();
+        user = repository.findByUsername(username);
         if(user != null) {
-            fieldMessages.add(new FieldMessage("username", "Username " + request.username() +" já existe"));
+            fieldMessages.add(new FieldMessage("username", "Username " + username +" already exists"));
         }
 
         for (FieldMessage e : fieldMessages) {
