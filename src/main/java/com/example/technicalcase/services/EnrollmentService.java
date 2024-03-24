@@ -13,7 +13,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 
 import static com.example.technicalcase.enumerators.Status.ACTIVE;
 import static java.lang.Boolean.FALSE;
@@ -65,6 +66,6 @@ public class EnrollmentService {
     private static void setData(Enrollment enrollment, User student, Course course) {
         enrollment.setStudent(student);
         enrollment.setCourse(course);
-        enrollment.setEnrollmentDate(LocalDate.now());
+        enrollment.setEnrollmentDate(LocalDateTime.now(ZoneId.of("UTC")));
     }
 }

@@ -13,7 +13,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 
 import static com.example.technicalcase.enumerators.Status.ACTIVE;
 import static com.example.technicalcase.enumerators.Status.INACTIVE;
@@ -31,7 +32,7 @@ public class CourseService {
     @Transactional
     public Course save(Course course) {
         User user = userRepository.getReferenceByUsername(course.getInstructor().getUsername());
-        course.setCreationDate(LocalDate.now());
+        course.setCreationDate(LocalDateTime.now(ZoneId.of("UTC")));
         course.setInstructor(user);
         course.setStatus(ACTIVE);
         return repository.save(course);
@@ -47,7 +48,7 @@ public class CourseService {
             throw new AlreadyInactiveStatusException();
         }
         course.setStatus(INACTIVE);
-        course.setInactivationDate(LocalDate.now());
+        course.setInactivationDate(LocalDateTime.now(ZoneId.of("UTC")));
         return repository.save(course);
     }
 

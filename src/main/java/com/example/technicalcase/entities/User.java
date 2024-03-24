@@ -10,7 +10,7 @@ import lombok.Setter;
 
 import java.io.Serial;
 import java.io.Serializable;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -36,7 +36,7 @@ public class User implements Serializable {
 
     private String name;
     private String password;
-    private LocalDate creationDate;
+    private LocalDateTime creationDate;
 
     @Enumerated(EnumType.STRING)
     private Role role;

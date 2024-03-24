@@ -8,7 +8,7 @@ import lombok.Setter;
 
 import java.io.Serial;
 import java.io.Serializable;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -35,7 +35,7 @@ public class Enrollment implements Serializable {
     private Course course;
 
     @Column(name = "enrollment_date", nullable = false)
-    private LocalDate enrollmentDate;
+    private LocalDateTime enrollmentDate;
 
     @Override
     public boolean equals(Object o) {

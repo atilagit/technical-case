@@ -9,7 +9,7 @@ import lombok.Setter;
 
 import java.io.Serial;
 import java.io.Serializable;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -39,8 +39,8 @@ public class Course implements Serializable {
 
     private String name;
     private Status status;
-    private LocalDate creationDate;
-    private LocalDate inactivationDate;
+    private LocalDateTime creationDate;
+    private LocalDateTime inactivationDate;
 
     public Course(String code) {
         this.code = code;
