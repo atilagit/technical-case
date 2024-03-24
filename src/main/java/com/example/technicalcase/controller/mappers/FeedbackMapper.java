@@ -1,10 +1,12 @@
 package com.example.technicalcase.controller.mappers;
 
 import com.example.technicalcase.controller.data.requests.InsertCourseFeedbackRequest;
+import com.example.technicalcase.controller.data.responses.FindAllCourseNpsResponse;
 import com.example.technicalcase.controller.data.responses.InsertCourseFeedbackResponse;
 import com.example.technicalcase.entities.Course;
 import com.example.technicalcase.entities.CourseFeedback;
 import com.example.technicalcase.entities.User;
+import com.example.technicalcase.entities.projections.CourseFeedbackProjection;
 
 import static org.springframework.beans.BeanUtils.copyProperties;
 
@@ -24,5 +26,9 @@ public class FeedbackMapper {
     public static InsertCourseFeedbackResponse mapToInsertFeedbackResponse(CourseFeedback feedback) {
         return new InsertCourseFeedbackResponse(feedback.getId(), feedback.getStudent().getUsername(),
                 feedback.getCourse().getCode(), feedback.getFeedbackDate(), feedback.getGrade(), feedback.getReason());
+    }
+
+    public static FindAllCourseNpsResponse mapToFindAllCourseNpsResponse(CourseFeedbackProjection dto) {
+        return new FindAllCourseNpsResponse(dto.getNps(), dto.getCourseName(), dto.getCourseCode(), null, null, null);
     }
 }
