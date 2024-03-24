@@ -1,8 +1,8 @@
 package com.example.technicalcase.controller;
 
-import com.example.technicalcase.controller.data.requests.InsertFeedbackRequest;
-import com.example.technicalcase.controller.data.responses.InsertFeedbackResponse;
-import com.example.technicalcase.services.FeedbackService;
+import com.example.technicalcase.controller.data.requests.InsertCourseFeedbackRequest;
+import com.example.technicalcase.controller.data.responses.InsertCourseFeedbackResponse;
+import com.example.technicalcase.services.CourseFeedbackService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -17,14 +17,14 @@ import static com.example.technicalcase.controller.mappers.FeedbackMapper.mapToI
 
 
 @RestController
-@RequestMapping("/feedbacks")
-public class FeedbackController {
+@RequestMapping("/course-feedbacks")
+public class CourseFeedbackController {
 
     @Autowired
-    FeedbackService service;
+    CourseFeedbackService service;
 
     @PostMapping
-    ResponseEntity<InsertFeedbackResponse> saveFeedback(@RequestBody @Valid InsertFeedbackRequest requestDTO) {
+    ResponseEntity<InsertCourseFeedbackResponse> saveFeedback(@RequestBody @Valid InsertCourseFeedbackRequest requestDTO) {
         var feedback = mapToEntity(requestDTO);
         feedback = service.save(feedback);
         var responseDTO = mapToInsertFeedbackResponse(feedback);

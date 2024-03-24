@@ -17,8 +17,8 @@ import java.util.UUID;
 @Getter
 @Setter
 @Entity
-@Table(name = "TB_FEEDBACK", uniqueConstraints = @UniqueConstraint(columnNames = {"student_id", "course_id"}))
-public class Feedback implements Serializable {
+@Table(name = "TB_COURSE_FEEDBACK", uniqueConstraints = @UniqueConstraint(columnNames = {"student_id", "course_id"}))
+public class CourseFeedback implements Serializable {
     @Serial
     private static final long serialVersionUID = 1L;
 
@@ -41,8 +41,8 @@ public class Feedback implements Serializable {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof Feedback feedback)) return false;
-        return Objects.equals(getId(), feedback.getId()) && Objects.equals(getStudent(), feedback.getStudent()) && Objects.equals(getCourse(), feedback.getCourse());
+        if (!(o instanceof CourseFeedback courseFeedback)) return false;
+        return Objects.equals(getId(), courseFeedback.getId()) && Objects.equals(getStudent(), courseFeedback.getStudent()) && Objects.equals(getCourse(), courseFeedback.getCourse());
     }
 
     @Override

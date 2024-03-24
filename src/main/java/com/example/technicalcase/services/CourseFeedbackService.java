@@ -1,13 +1,13 @@
 package com.example.technicalcase.services;
 
 import com.example.technicalcase.entities.Course;
-import com.example.technicalcase.entities.Feedback;
+import com.example.technicalcase.entities.CourseFeedback;
 import com.example.technicalcase.entities.User;
 import com.example.technicalcase.observer.Observer;
 import com.example.technicalcase.observer.Subject;
+import com.example.technicalcase.repositories.CourseFeedbackRepository;
 import com.example.technicalcase.repositories.CourseRepository;
 import com.example.technicalcase.repositories.EnrollmentRepository;
-import com.example.technicalcase.repositories.FeedbackRepository;
 import com.example.technicalcase.repositories.UserRepository;
 import com.example.technicalcase.services.exceptions.ResourceNotFoundException;
 import com.example.technicalcase.services.exceptions.StudentNotEnrolledException;
@@ -24,10 +24,10 @@ import java.util.List;
 import static java.util.Objects.isNull;
 
 @Service
-public class FeedbackService implements Subject {
+public class CourseFeedbackService implements Subject {
 
     @Autowired
-    FeedbackRepository repository;
+    CourseFeedbackRepository repository;
 
     @Autowired
     CourseRepository courseRepository;
@@ -42,20 +42,20 @@ public class FeedbackService implements Subject {
     private final List<Observer> observers = new ArrayList<>();
 
     @Transactional
-    public Feedback save(Feedback feedback) {
-        var student = userRepository.findByUsername(feedback.getStudent().getUsername());
-        var course = courseRepository.findByCode(feedback.getCourse().getCode());
+    public CourseFeedback save(CourseFeedback courseFeedback) {
+        var student = userRepository.findByUsername(courseFeedback.getStudent().getUsername());
+        var course = courseRepository.findByCode(courseFeedback.getCourse().getCode());
 
         validationNotFoundEntity(student, course);
         validationUniquenessViolation(student, course);
         validationUniquenessViolation(student, course);
         validationEnrollmentViolation(student, course);
 
-        setData(feedback, student, course);
-        feedback = repository.save(feedback);
+        setData(courseFeedback, student, course);
+        courseFeedback = repository.save(courseFeedback);
 
-        notifyObservers(feedback);
-        return feedback;
+        notifyObservers(courseFeedback);
+        return courseFeedback;
     }
 
     private void validationNotFoundEntity(User student, Course course) {
@@ -76,10 +76,10 @@ public class FeedbackService implements Subject {
         }
     }
 
-    private static void setData(Feedback feedback, User student, Course course) {
-        feedback.setStudent(student);
-        feedback.setCourse(course);
-        feedback.setFeedbackDate(LocalDateTime.now(ZoneId.of("UTC")));
+    private static void setData(CourseFeedback courseFeedback, User student, Course course) {
+        courseFeedback.setStudent(student);
+        courseFeedback.setCourse(course);
+        courseFeedback.setFeedbackDate(LocalDateTime.now(ZoneId.of("UTC")));
     }
 
     @Override
