@@ -37,8 +37,10 @@ public class Course implements Serializable {
     @Column(columnDefinition = "TEXT")
     private String description;
 
-    private String name;
+    @Enumerated(EnumType.STRING)
     private Status status;
+
+    private String name;
     private LocalDateTime creationDate;
     private LocalDateTime inactivationDate;
 

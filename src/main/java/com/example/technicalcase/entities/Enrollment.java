@@ -34,7 +34,6 @@ public class Enrollment implements Serializable {
     @JoinColumn(name = "course_id", nullable = false)
     private Course course;
 
-    @Column(name = "enrollment_date", nullable = false)
     private LocalDateTime enrollmentDate;
 
     @Override
