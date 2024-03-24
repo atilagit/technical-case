@@ -1,9 +1,6 @@
 package com.example.technicalcase.controller.exceptions;
 
-import com.example.technicalcase.services.exceptions.AlreadyInactiveStatusException;
-import com.example.technicalcase.services.exceptions.NotActiveCourseException;
-import com.example.technicalcase.services.exceptions.ResourceNotFoundException;
-import com.example.technicalcase.services.exceptions.UniquenessViolationEnrollmentException;
+import com.example.technicalcase.services.exceptions.*;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -73,6 +70,16 @@ public class ControllerExceptionHandler {
 
 	@ExceptionHandler(UniquenessViolationEnrollmentException.class)
 	public ResponseEntity<StandardError> validation(UniquenessViolationEnrollmentException exception, HttpServletRequest request){
+		return getStandardErrorResponseEntity(exception, request, HttpStatus.CONFLICT);
+	}
+
+	@ExceptionHandler(StudentNotEnrolledException.class)
+	public ResponseEntity<StandardError> validation(StudentNotEnrolledException exception, HttpServletRequest request){
+		return getStandardErrorResponseEntity(exception, request, HttpStatus.CONFLICT);
+	}
+
+	@ExceptionHandler(UniquenessViolationFeedbackException.class)
+	public ResponseEntity<StandardError> validation(UniquenessViolationFeedbackException exception, HttpServletRequest request){
 		return getStandardErrorResponseEntity(exception, request, HttpStatus.CONFLICT);
 	}
 
