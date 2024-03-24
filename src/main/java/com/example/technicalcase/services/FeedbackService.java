@@ -3,6 +3,8 @@ package com.example.technicalcase.services;
 import com.example.technicalcase.entities.Course;
 import com.example.technicalcase.entities.Feedback;
 import com.example.technicalcase.entities.User;
+import com.example.technicalcase.observer.Observer;
+import com.example.technicalcase.observer.Subject;
 import com.example.technicalcase.repositories.CourseRepository;
 import com.example.technicalcase.repositories.EnrollmentRepository;
 import com.example.technicalcase.repositories.FeedbackRepository;
@@ -16,11 +18,13 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.util.ArrayList;
+import java.util.List;
 
 import static java.util.Objects.isNull;
 
 @Service
-public class FeedbackService {
+public class FeedbackService implements Subject {
 
     @Autowired
     FeedbackRepository repository;
@@ -34,6 +38,9 @@ public class FeedbackService {
     @Autowired
     EnrollmentRepository enrollmentRepository;
 
+    @Autowired
+    private final List<Observer> observers = new ArrayList<>();
+
     @Transactional
     public Feedback save(Feedback feedback) {
         var student = userRepository.findByUsername(feedback.getStudent().getUsername());
@@ -45,7 +52,10 @@ public class FeedbackService {
         validationEnrollmentViolation(student, course);
 
         setData(feedback, student, course);
-        return repository.save(feedback);
+        feedback = repository.save(feedback);
+
+        notifyObservers(feedback);
+        return feedback;
     }
 
     private void validationNotFoundEntity(User student, Course course) {
@@ -70,5 +80,12 @@ public class FeedbackService {
         feedback.setStudent(student);
         feedback.setCourse(course);
         feedback.setFeedbackDate(LocalDateTime.now(ZoneId.of("UTC")));
+    }
+
+    @Override
+    public void notifyObservers(Object data) {
+        for (Observer observer : observers) {
+            observer.update(data);
+        }
     }
 }
