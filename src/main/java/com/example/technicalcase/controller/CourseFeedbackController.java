@@ -8,12 +8,13 @@ import com.example.technicalcase.entities.projections.CourseProjection;
 import com.example.technicalcase.services.CourseFeedbackService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
-
-import java.util.List;
-import java.util.stream.Collectors;
 
 import static com.example.technicalcase.controller.mappers.FeedbackMapper.mapToEntity;
 import static com.example.technicalcase.controller.mappers.FeedbackMapper.mapToInsertFeedbackResponse;
@@ -37,10 +38,10 @@ public class CourseFeedbackController {
     }
 
     @GetMapping("/reports/nps")
-    ResponseEntity<List<FindAllCourseNpsResponse>> findCoursesNps() {
-        List<CourseProjection> coursesNps = service.findCoursesNps();
-        List<FindAllCourseNpsResponse> responses = coursesNps.stream().map(FeedbackMapper::mapToFindAllCourseNpsResponse)
-                .collect(Collectors.toList());
-        return ResponseEntity.ok(responses);
+    ResponseEntity<Page<FindAllCourseNpsResponse>> findCoursesNps(@RequestParam(defaultValue = "4") Integer minEnrollments,
+                                                                  @PageableDefault(sort = "nps", direction = Sort.Direction.DESC) Pageable pageable) {
+        Page<CourseProjection> coursesNps = service.findCoursesNps(minEnrollments, pageable);
+        Page<FindAllCourseNpsResponse> responsePage = coursesNps.map(FeedbackMapper::mapToFindAllCourseNpsResponse);
+        return ResponseEntity.ok(responsePage);
     }
 }

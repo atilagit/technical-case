@@ -14,6 +14,8 @@ import com.example.technicalcase.services.exceptions.ResourceNotFoundException;
 import com.example.technicalcase.services.exceptions.StudentNotEnrolledException;
 import com.example.technicalcase.services.exceptions.UniquenessViolationFeedbackException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -59,8 +61,8 @@ public class CourseFeedbackService implements Subject {
     }
 
     @Transactional(readOnly = true)
-    public List<CourseProjection> findCoursesNps() {
-        return courseRepository.getCourseProjectionList();
+    public Page<CourseProjection> findCoursesNps(Integer minEnrollments, Pageable pageable) {
+        return courseRepository.getCourseProjectionList(minEnrollments, pageable);
     }
 
     private void validationNotFoundEntity(User student, Course course) {
