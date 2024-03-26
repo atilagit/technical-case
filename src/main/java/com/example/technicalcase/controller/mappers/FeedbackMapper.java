@@ -28,7 +28,7 @@ public class FeedbackMapper {
                 feedback.getCourse().getCode(), feedback.getFeedbackDate(), feedback.getGrade(), feedback.getReason());
     }
 
-    public static FindAllCourseNpsResponse mapToFindAllCourseNpsResponse(CourseFeedbackProjection dto) {
-        return new FindAllCourseNpsResponse(dto.getNps(), dto.getCourseName(), dto.getCourseCode(), null, null, null);
+    public static FindAllCourseNpsResponse mapToFindAllCourseNpsResponse(CourseFeedbackProjection projection) {
+        return new FindAllCourseNpsResponse(projection.getNps(), projection.getCourseName(), projection.getCourseCode(), projection.getEnrollmentQuantity());
     }
 }

@@ -4,4 +4,5 @@ public interface CourseFeedbackProjection {
     String getCourseName();
     String getCourseCode();
     double getNps();
+    Long getEnrollmentQuantity();
 }

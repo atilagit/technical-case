@@ -22,6 +22,7 @@ public interface CourseFeedbackRepository extends JpaRepository<CourseFeedback, 
             "100.0 / COUNT(cf)) AS nps " +
             "FROM CourseFeedback cf " +
             "JOIN cf.course c " +
-            "GROUP BY c.name, c.code")
+            "GROUP BY c.name, c.code " +
+            "ORDER BY nps DESC")
     List<CourseFeedbackProjection> getCourseNps();
 }
