@@ -4,7 +4,7 @@ import com.example.technicalcase.controller.data.requests.InsertCourseFeedbackRe
 import com.example.technicalcase.controller.data.responses.FindAllCourseNpsResponse;
 import com.example.technicalcase.controller.data.responses.InsertCourseFeedbackResponse;
 import com.example.technicalcase.controller.mappers.FeedbackMapper;
-import com.example.technicalcase.entities.projections.CourseFeedbackProjection;
+import com.example.technicalcase.entities.projections.CourseProjection;
 import com.example.technicalcase.services.CourseFeedbackService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,7 +38,7 @@ public class CourseFeedbackController {
 
     @GetMapping("/reports/nps")
     ResponseEntity<List<FindAllCourseNpsResponse>> findCoursesNps() {
-        List<CourseFeedbackProjection> coursesNps = service.findCoursesNps();
+        List<CourseProjection> coursesNps = service.findCoursesNps();
         List<FindAllCourseNpsResponse> responses = coursesNps.stream().map(FeedbackMapper::mapToFindAllCourseNpsResponse)
                 .collect(Collectors.toList());
         return ResponseEntity.ok(responses);

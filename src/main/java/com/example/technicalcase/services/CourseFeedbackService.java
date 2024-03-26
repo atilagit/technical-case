@@ -3,7 +3,7 @@ package com.example.technicalcase.services;
 import com.example.technicalcase.entities.Course;
 import com.example.technicalcase.entities.CourseFeedback;
 import com.example.technicalcase.entities.User;
-import com.example.technicalcase.entities.projections.CourseFeedbackProjection;
+import com.example.technicalcase.entities.projections.CourseProjection;
 import com.example.technicalcase.observer.Observer;
 import com.example.technicalcase.observer.Subject;
 import com.example.technicalcase.repositories.CourseFeedbackRepository;
@@ -49,7 +49,6 @@ public class CourseFeedbackService implements Subject {
 
         validationNotFoundEntity(student, course);
         validationUniquenessViolation(student, course);
-        validationUniquenessViolation(student, course);
         validationEnrollmentViolation(student, course);
 
         setData(courseFeedback, student, course);
@@ -60,8 +59,8 @@ public class CourseFeedbackService implements Subject {
     }
 
     @Transactional(readOnly = true)
-    public List<CourseFeedbackProjection> findCoursesNps() {
-        return repository.getCourseNps();
+    public List<CourseProjection> findCoursesNps() {
+        return courseRepository.getCourseProjectionList();
     }
 
     private void validationNotFoundEntity(User student, Course course) {

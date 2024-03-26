@@ -10,6 +10,7 @@ import lombok.Setter;
 import java.io.Serial;
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -43,6 +44,12 @@ public class Course implements Serializable {
     private String name;
     private LocalDateTime creationDate;
     private LocalDateTime inactivationDate;
+
+    @OneToMany(mappedBy = "course")
+    private List<Enrollment> enrollments;
+
+    @OneToMany(mappedBy = "course")
+    private List<CourseFeedback> courseFeedbacks;
 
     public Course(String code) {
         this.code = code;
