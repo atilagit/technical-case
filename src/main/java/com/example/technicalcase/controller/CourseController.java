@@ -6,7 +6,9 @@ import com.example.technicalcase.controller.data.responses.InsertCourseResponse;
 import com.example.technicalcase.controller.mappers.CourseMapper;
 import com.example.technicalcase.entities.Course;
 import com.example.technicalcase.enumerators.Status;
-import com.example.technicalcase.services.CourseService;
+import com.example.technicalcase.services.FindAllCourseService;
+import com.example.technicalcase.services.InactiveCourseService;
+import com.example.technicalcase.services.SaveCourseService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -24,12 +26,16 @@ import static com.example.technicalcase.controller.mappers.CourseMapper.mapToIns
 public class CourseController {
 
     @Autowired
-    CourseService service;
+    SaveCourseService saveCourseService;
+    @Autowired
+    InactiveCourseService inactiveCourseService;
+    @Autowired
+    FindAllCourseService findAllCourseService;
 
     @PostMapping
     ResponseEntity<InsertCourseResponse> saveCourse(@RequestBody @Valid InsertCourseRequest requestDTO) {
         var course = mapToCourse(requestDTO);
-        course = service.save(course);
+        course = saveCourseService.execute(course);
         var responseDTO = mapToInsertCourseResponse(course);
 
         var uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{code}").buildAndExpand(responseDTO.code()).toUri();
@@ -38,7 +44,7 @@ public class CourseController {
 
     @PutMapping("/inactivation/{code}")
     ResponseEntity<InsertCourseResponse> inactive(@PathVariable String code) {
-        var course = service.inactive(code);
+        var course = inactiveCourseService.execute(code);
         var responseDTO = mapToInsertCourseResponse(course);
 
         var uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{code}").buildAndExpand(responseDTO.code()).toUri();
@@ -48,7 +54,7 @@ public class CourseController {
     @GetMapping
     public ResponseEntity<Page<FindAllCourseResponse>> getAllCoursesPaged(@RequestParam(name = "status", required = false) Status status,
                                                                           @PageableDefault Pageable pageable) {
-        Page<Course> coursePage = service.findAll(status, pageable);
+        Page<Course> coursePage = findAllCourseService.execute(status, pageable);
         Page<FindAllCourseResponse> responsePage = coursePage.map(CourseMapper::mapToFindAllCourseResponse);
         return ResponseEntity.ok(responsePage);
     }

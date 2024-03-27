@@ -3,7 +3,8 @@ package com.example.technicalcase.controller;
 import com.example.technicalcase.controller.data.requests.UserRequest;
 import com.example.technicalcase.controller.data.responses.FindUserResponse;
 import com.example.technicalcase.controller.data.responses.UserResponse;
-import com.example.technicalcase.services.UserService;
+import com.example.technicalcase.services.FindUserByUsernameService;
+import com.example.technicalcase.services.SaveUserService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -18,12 +19,15 @@ import static com.example.technicalcase.controller.mappers.UserMapper.mapToUserR
 public class UserController {
 
     @Autowired
-    UserService service;
+    FindUserByUsernameService findUserByUsernameService;
+
+    @Autowired
+    SaveUserService saveUserService;
 
     @PostMapping
     ResponseEntity<UserResponse> saveUser(@RequestBody @Valid UserRequest userRequest) {
         var user = mapToUser(userRequest);
-        user = service.save(user);
+        user = saveUserService.execute(user);
         var userResponse = mapToUserResponse(user);
 
         var uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{username}").buildAndExpand(userResponse.username()).toUri();
@@ -32,7 +36,7 @@ public class UserController {
 
     @GetMapping("/{username}")
     ResponseEntity<FindUserResponse> findUser(@PathVariable String username) {
-        var user = service.findByUsername(username);
+        var user = findUserByUsernameService.execute(username);
         return ResponseEntity.ok(new FindUserResponse(user.getName(), user.getEmail(), user.getRole()));
     }
 }

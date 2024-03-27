@@ -21,7 +21,7 @@ import static java.lang.Boolean.FALSE;
 import static java.util.Objects.isNull;
 
 @Service
-public class EnrollmentService {
+public class SaveEnrollmentService {
 
     @Autowired
     EnrollmentRepository repository;
@@ -33,7 +33,7 @@ public class EnrollmentService {
     UserRepository userRepository;
 
     @Transactional
-    public Enrollment save(Enrollment enrollment) {
+    public Enrollment execute(Enrollment enrollment) {
         var student = userRepository.findByUsername(enrollment.getStudent().getUsername());
         var course = courseRepository.findByCode(enrollment.getCourse().getCode());
 

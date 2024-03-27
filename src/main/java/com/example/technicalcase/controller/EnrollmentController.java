@@ -2,7 +2,7 @@ package com.example.technicalcase.controller;
 
 import com.example.technicalcase.controller.data.requests.InsertEnrollmentRequest;
 import com.example.technicalcase.controller.data.responses.InsertEnrollmentResponse;
-import com.example.technicalcase.services.EnrollmentService;
+import com.example.technicalcase.services.SaveEnrollmentService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -20,12 +20,12 @@ import static com.example.technicalcase.controller.mappers.EnrollmentMapper.mapT
 public class EnrollmentController {
 
     @Autowired
-    EnrollmentService service;
+    SaveEnrollmentService service;
 
     @PostMapping
     ResponseEntity<InsertEnrollmentResponse> saveCourse(@RequestBody @Valid InsertEnrollmentRequest requestDTO) {
         var enrollment = mapToEntity(requestDTO);
-        enrollment = service.save(enrollment);
+        enrollment = service.execute(enrollment);
         var responseDTO = mapToInsertEnrollmentResponse(enrollment);
 
         var uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(responseDTO.id()).toUri();

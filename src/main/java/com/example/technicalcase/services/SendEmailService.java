@@ -7,12 +7,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class EmailService implements Observer {
+public class SendEmailService implements Observer {
 
     @Autowired
     EmailSender emailSender;
 
-    public void sendEmail(String recipientEmail, String subject, String body) {
+    public void execute(String recipientEmail, String subject, String body) {
         emailSender.send(recipientEmail, subject, body);
     }
 
@@ -25,7 +25,7 @@ public class EmailService implements Observer {
             String subject = "Feedback " + course.getName();
             String body = """
                     Olá %s!
-                    Chegou um novo courseFeedback sobre o seu curso %s. Segue abaixo os dados:
+                    Chegou um novo feedback sobre o seu curso %s. Segue abaixo os dados:
                     
                     Nota: %d
                     Motivo: %s
@@ -34,7 +34,7 @@ public class EmailService implements Observer {
                     Lembre-se, você só receberá notificações dos feedbacks com notas abaixo da média.
                     Isso não implica necessariamente que todas os feedbacks do(s) seu(s) curso estão abaixo da média.
                     """.formatted(instructor.getName(), course.getName(), courseFeedback.getGrade(), courseFeedback.getReason());
-            sendEmail(recipientEmail, subject, body);
+            execute(recipientEmail, subject, body);
         }
 
     }

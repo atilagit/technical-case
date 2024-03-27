@@ -5,7 +5,8 @@ import com.example.technicalcase.controller.data.responses.FindAllCourseNpsRespo
 import com.example.technicalcase.controller.data.responses.InsertCourseFeedbackResponse;
 import com.example.technicalcase.controller.mappers.FeedbackMapper;
 import com.example.technicalcase.entities.projections.CourseProjection;
-import com.example.technicalcase.services.CourseFeedbackService;
+import com.example.technicalcase.services.FindCoursesNpsService;
+import com.example.technicalcase.services.SaveCourseFeedbackService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -25,12 +26,15 @@ import static com.example.technicalcase.controller.mappers.FeedbackMapper.mapToI
 public class CourseFeedbackController {
 
     @Autowired
-    CourseFeedbackService service;
+    SaveCourseFeedbackService saveCourseFeedbackService;
+
+    @Autowired
+    FindCoursesNpsService findCoursesNpsService;
 
     @PostMapping
     ResponseEntity<InsertCourseFeedbackResponse> saveFeedback(@RequestBody @Valid InsertCourseFeedbackRequest requestDTO) {
         var feedback = mapToEntity(requestDTO);
-        feedback = service.save(feedback);
+        feedback = saveCourseFeedbackService.execute(feedback);
         var responseDTO = mapToInsertFeedbackResponse(feedback);
 
         var uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(responseDTO.id()).toUri();
@@ -40,7 +44,7 @@ public class CourseFeedbackController {
     @GetMapping("/reports/nps")
     ResponseEntity<Page<FindAllCourseNpsResponse>> findCoursesNps(@RequestParam(defaultValue = "4") Integer minEnrollments,
                                                                   @PageableDefault(sort = "nps", direction = Sort.Direction.DESC) Pageable pageable) {
-        Page<CourseProjection> coursesNps = service.findCoursesNps(minEnrollments, pageable);
+        Page<CourseProjection> coursesNps = findCoursesNpsService.execute(minEnrollments, pageable);
         Page<FindAllCourseNpsResponse> responsePage = coursesNps.map(FeedbackMapper::mapToFindAllCourseNpsResponse);
         return ResponseEntity.ok(responsePage);
     }
