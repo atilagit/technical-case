@@ -10,7 +10,6 @@ import com.example.technicalcase.repositories.CourseFeedbackRepository;
 import com.example.technicalcase.repositories.CourseRepository;
 import com.example.technicalcase.repositories.EnrollmentRepository;
 import com.example.technicalcase.repositories.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
@@ -21,18 +20,20 @@ import java.util.List;
 
 @Component
 public class DataInitializer implements CommandLineRunner {
+    private final UserRepository userRepository;
+    private final CourseRepository courseRepository;
+    private final EnrollmentRepository enrollmentRepository;
+    private final CourseFeedbackRepository courseFeedbackRepository;
 
-    @Autowired
-    private UserRepository userRepository;
-    @Autowired
-    private CourseRepository courseRepository;
-    @Autowired
-    private EnrollmentRepository enrollmentRepository;
-    @Autowired
-    private CourseFeedbackRepository courseFeedbackRepository;
+    public DataInitializer(UserRepository userRepository, CourseRepository courseRepository, EnrollmentRepository enrollmentRepository, CourseFeedbackRepository courseFeedbackRepository) {
+        this.userRepository = userRepository;
+        this.courseRepository = courseRepository;
+        this.enrollmentRepository = enrollmentRepository;
+        this.courseFeedbackRepository = courseFeedbackRepository;
+    }
 
     @Override
-    public void run(String... args) throws Exception {
+    public void run(String... args) {
         insertUsers();
         insertCourses();
         insertEnrollments();
@@ -42,16 +43,16 @@ public class DataInitializer implements CommandLineRunner {
 
     private void insertUsers() {
         List<User> users = Arrays.asList(
-                new User(null, "johnsnow", "johnsnow@example.com", "John Snow", "password123", LocalDateTime.now(), Role.INSTRUCTOR),
-                new User(null, "targaryen", "targaryen@example.com", "Daenerys Targaryen", "password123", LocalDateTime.now(), Role.ADMIN),
-                new User(null, "aryastark", "aryastark@example.com", "Arya Stark", "password123", LocalDateTime.now(), Role.STUDENT),
-                new User(null, "tyrionlannister", "tyrionlannister@example.com", "Tyrion Lannister", "password123", LocalDateTime.now(), Role.STUDENT),
-                new User(null, "cerseilannister", "cerseilannister@example.com", "Cersei Lannister", "password123", LocalDateTime.now(), Role.STUDENT),
-                new User(null, "sansastark", "sansastark@example.com", "Sansa Stark", "password123", LocalDateTime.now(), Role.STUDENT),
-                new User(null, "jaimelannister", "jaimelannister@example.com", "Jaime Lannister", "password123", LocalDateTime.now(), Role.STUDENT),
-                new User(null, "branstark", "branstark@example.com", "Bran Stark", "password123", LocalDateTime.now(), Role.STUDENT),
-                new User(null, "sandorclegane", "sandorclegane@example.com", "Sandor Clegane", "password123", LocalDateTime.now(), Role.STUDENT),
-                new User(null, "melisandre", "melisandre@example.com", "Melisandre", "password123", LocalDateTime.now(), Role.STUDENT)
+                new User(null, "johnsnow", "johnsnow@example.com", "John Snow", "$2a$10$gys.Zv8vZdpOBI2mpBuXrebZbD6GgqIGbIo1C6P0Yn6jJJvkYE/Qe", LocalDateTime.now(), Role.INSTRUCTOR),
+                new User(null, "targaryen", "targaryen@example.com", "Daenerys Targaryen", "$2a$10$gys.Zv8vZdpOBI2mpBuXrebZbD6GgqIGbIo1C6P0Yn6jJJvkYE/Qe", LocalDateTime.now(), Role.ADMIN),
+                new User(null, "aryastark", "aryastark@example.com", "Arya Stark", "$2a$10$gys.Zv8vZdpOBI2mpBuXrebZbD6GgqIGbIo1C6P0Yn6jJJvkYE/Qe", LocalDateTime.now(), Role.STUDENT),
+                new User(null, "tyrionlannister", "tyrionlannister@example.com", "Tyrion Lannister", "$2a$10$gys.Zv8vZdpOBI2mpBuXrebZbD6GgqIGbIo1C6P0Yn6jJJvkYE/Qe", LocalDateTime.now(), Role.STUDENT),
+                new User(null, "cerseilannister", "cerseilannister@example.com", "Cersei Lannister", "$2a$10$gys.Zv8vZdpOBI2mpBuXrebZbD6GgqIGbIo1C6P0Yn6jJJvkYE/Qe", LocalDateTime.now(), Role.STUDENT),
+                new User(null, "sansastark", "sansastark@example.com", "Sansa Stark", "$2a$10$gys.Zv8vZdpOBI2mpBuXrebZbD6GgqIGbIo1C6P0Yn6jJJvkYE/Qe", LocalDateTime.now(), Role.STUDENT),
+                new User(null, "jaimelannister", "jaimelannister@example.com", "Jaime Lannister", "$2a$10$gys.Zv8vZdpOBI2mpBuXrebZbD6GgqIGbIo1C6P0Yn6jJJvkYE/Qe", LocalDateTime.now(), Role.STUDENT),
+                new User(null, "branstark", "branstark@example.com", "Bran Stark", "$2a$10$gys.Zv8vZdpOBI2mpBuXrebZbD6GgqIGbIo1C6P0Yn6jJJvkYE/Qe", LocalDateTime.now(), Role.STUDENT),
+                new User(null, "sandorclegane", "sandorclegane@example.com", "Sandor Clegane", "$2a$10$gys.Zv8vZdpOBI2mpBuXrebZbD6GgqIGbIo1C6P0Yn6jJJvkYE/Qe", LocalDateTime.now(), Role.STUDENT),
+                new User(null, "melisandre", "melisandre@example.com", "Melisandre", "$2a$10$gys.Zv8vZdpOBI2mpBuXrebZbD6GgqIGbIo1C6P0Yn6jJJvkYE/Qe", LocalDateTime.now(), Role.STUDENT)
         );
         userRepository.saveAll(users);
     }
