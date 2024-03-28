@@ -47,7 +47,7 @@ Passo-a-passo para execução e teste local.
 - Executar o progama localmente na sua IDE
 
 Observações:
-- Segue a collectiona do postman para facilitar 
+- O banco de dados já está sendo pré populado automaticamente ao executar a aplicação
 - Segue a collectiona do postman para facilitar para importar no postman e facilitar seus testes
 
 ## 🚧🛠️ Tecnologias e Ferramentas
